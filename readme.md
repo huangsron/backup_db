@@ -1,10 +1,11 @@
 # mysql backup
 
+## run
 ```shell
 # init
 docker-compose up -d
 
-#enter container
+# enter container
 docker-compose exec mysql bash
 
 # import database
@@ -16,13 +17,25 @@ exit
 docker-compose exec mysql sh -c "chmod 755 /tmp/sql/backup/backup.sh; /tmp/sql/backup/backup.sh"
 
 sudo ls sql/db_backup/mysql
+
+# stop container
+docker-compose down
 ```
 
-git submodule add https://github.com/datacharmer/test_db.git sql/test_db
+## clean
+```shell
+sudo git clean -f -X -d
+```
 
+## add test_db to project
+```shell
+git submodule add https://github.com/datacharmer/test_db.git sql/test_db
 git submodule init
 git submodule update --recursive
+```
 
+## note
+```shell
 docker-compose up -d
 
 docker-compose exec mysql bash
@@ -43,11 +56,9 @@ mysql -u root -p  employees2 < /tmp/sql/backup/backup.sql
 
 mysql -u root -pdbadmin1234 -e "show databases;"
 
-
 docker-compose down
 
 # install mysql client
-
 sudo apt install mysql-client
 
 cat << EOF > .my.cnf
@@ -65,5 +76,5 @@ mysql --defaults-file=.my.cnf -h 127.0.0.1 -u root -pdbadmin1234 -e "show databa
 docker-compose exec mysql sh -c "chmod 755 /tmp/sql/backup/backup.sh; /tmp/sql/backup/backup.sh"
 
 sudo ls sql/db_backup/mysql
+```
 
-sudo git clean -f -X -d
